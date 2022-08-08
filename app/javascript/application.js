@@ -22,6 +22,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -34,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </Router>
     </StrictMode>
