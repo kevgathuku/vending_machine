@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { css } from "@emotion/react";
+import isEmpty from "lodash.isempty";
 
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 
+import FormErrors from "./FormErrors";
+
 const formContainer = css`
   max-width: 330px;
 `;
-
-const isEmptyObject = (obj) => Object.keys(obj).length === 0;
 
 const validateForm = (userData) => {
   const errors = {};
@@ -37,23 +38,6 @@ const validateForm = (userData) => {
   return errors;
 };
 
-const renderErrors = (formErrors) => {
-  if (isEmptyObject(formErrors)) {
-    return null;
-  }
-
-  return (
-    <div className="errors">
-      <h3>The following errors prohibited the event from being saved:</h3>
-      <ul>
-        {Object.values(formErrors).map((formError) => (
-          <li key={formError}>{formError}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
 const SignUp = () => {
   const [userData, setUserData] = useState({
     username: "",
@@ -62,6 +46,7 @@ const SignUp = () => {
     passwordConfirmation: "",
   });
   const [formErrors, setFormErrors] = useState({});
+  const [showFormErrors, setShowFormErrors] = useState(true);
 
   const handleInputChange = (e) => {
     const { target } = e;
@@ -76,16 +61,24 @@ const SignUp = () => {
     e.preventDefault();
     const errors = validateForm(userData);
 
-    if (!isEmptyObject(errors)) {
+    if (!isEmpty(errors)) {
       setFormErrors(errors);
+      setShowFormErrors(true);
     } else {
+      setShowFormErrors(false);
       console.log("Valid user data", userData);
     }
   };
 
   return (
     <section>
-      {renderErrors(formErrors)}
+      {showFormErrors && (
+        <FormErrors
+          formErrors={formErrors}
+          show={!isEmpty(formErrors)}
+          dismiss={() => setShowFormErrors(false)}
+        />
+      )}
       <Container>
         <Form
           className="w-100 mx-auto py-5"
@@ -123,7 +116,11 @@ const SignUp = () => {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="role">
-            <Form.Select aria-label="Select Role" onChange={handleInputChange} name="role">
+            <Form.Select
+              aria-label="Select Role"
+              onChange={handleInputChange}
+              name="role"
+            >
               <option>Select a role</option>
               <option value="0">Buyer</option>
               <option value="1">Seller</option>
