@@ -1,17 +1,12 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
-import {
-  Link
-} from "react-router-dom";
-
-import Header from "./Header";
+import { Link } from "react-router-dom";
 
 const App = () => (
   <div>
-    <Header />
     <Container>
       <main role="main">
-        <div className="jumbotron">
+        <div className="py-4">
           <div className="col-sm-8 mx-auto">
             <h3>Welcome to the Vending Machine.</h3>
             <p>
