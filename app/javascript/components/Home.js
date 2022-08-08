@@ -25,7 +25,7 @@ const App = () => (
               </Link>
             </p>
             <p>
-              <Link to="/login">
+              <Link to="/signup">
                 <button className="btn btn-primary">
                   Sign up as buyer &raquo;
                 </button>

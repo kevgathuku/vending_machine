@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { css } from "@emotion/react";
 import isEmpty from "lodash.isempty";
+import { useNavigate } from "react-router-dom";
 
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -31,7 +32,7 @@ const validateForm = (userData) => {
     errors.event_date = "Please enter matching passwords";
   }
 
-  if (userData.role === "") {
+  if (![0, 1].includes(userData.role)) {
     errors.role = "Please select a role";
   }
 
@@ -41,19 +42,23 @@ const validateForm = (userData) => {
 const SignUp = () => {
   const [userData, setUserData] = useState({
     username: "",
-    role: "",
+    role: undefined,
     password: "",
     passwordConfirmation: "",
   });
   const [formErrors, setFormErrors] = useState({});
   const [showFormErrors, setShowFormErrors] = useState(true);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { target } = e;
     const { name, value } = target;
 
     setUserData((prevState) => {
-      return { ...prevState, [name]: value };
+      return {
+        ...prevState,
+        [name]: name === "role" ? parseInt(value) : value,
+      };
     });
   };
 
@@ -67,6 +72,33 @@ const SignUp = () => {
     } else {
       setShowFormErrors(false);
       console.log("Valid user data", userData);
+      addUser(userData);
+    }
+  };
+  
+  const addUser = async (newUser) => {
+    const { passwordConfirmation, ...userFormData } = newUser;
+    try {
+      const response = await window.fetch("/api/users", {
+        method: "POST",
+        body: JSON.stringify({
+          user: userFormData,
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) throw Error(response.statusText);
+
+      const savedUser = await response.json();
+      console.log("savedUser", savedUser);
+      window.alert("User Created!");
+      navigate(`/`);
+      // TODO: Fetch the user token and save it here
+    } catch (error) {
+      // TODO: Show the error to the user
+      console.error(error);
     }
   };
 
