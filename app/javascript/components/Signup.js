@@ -8,6 +8,7 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 
 import FormErrors from "./FormErrors";
+import { success, error } from "../helpers/notifications";
 
 const formContainer = css`
   max-width: 330px;
@@ -75,7 +76,7 @@ const SignUp = () => {
       addUser(userData);
     }
   };
-  
+
   const addUser = async (newUser) => {
     const { passwordConfirmation, ...userFormData } = newUser;
     try {
@@ -91,14 +92,23 @@ const SignUp = () => {
       });
       if (!response.ok) throw Error(response.statusText);
 
-      const savedUser = await response.json();
-      console.log("savedUser", savedUser);
-      window.alert("User Created!");
+      const userResponse = await response.json();
+      console.log("userResponse", userResponse);
+      success("Account created!");
+
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify({
+          username: userResponse.user.username,
+          role: userResponse.user.role,
+          id: userResponse.user.id,
+          token: userResponse.auth_token,
+        })
+      );
       navigate(`/`);
-      // TODO: Fetch the user token and save it here
-    } catch (error) {
-      // TODO: Show the error to the user
-      console.error(error);
+    } catch (err) {
+      error("Something went wrong");
+      console.error(err);
     }
   };
 

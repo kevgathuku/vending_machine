@@ -16,7 +16,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-
+import { ToastContainer } from "react-toastify";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Header from "./components/Header";
@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <StrictMode>
       <Router>
         <Header />
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
