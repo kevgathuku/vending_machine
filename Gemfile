@@ -21,6 +21,8 @@ gem 'bcrypt', '~> 3.1.7'
 # API authentication
 gem 'jwt'
 
+gem 'simple_command'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
