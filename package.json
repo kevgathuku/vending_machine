@@ -35,9 +35,15 @@
     "presets": [
       "./node_modules/shakapacker/package/babel/preset.js",
       "@babel/preset-react"
+    ],
+    "plugins": [
+      "@emotion"
     ]
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "devDependencies": {
+    "@emotion/babel-plugin": "^11.10.0"
+  }
 }
