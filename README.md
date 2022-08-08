@@ -1,24 +1,21 @@
-# README
+# Vending Machine App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Development Setup
 
-Things you may want to cover:
+- Ensure you have Ruby and Node.js installed
 
-* Ruby version
+```sh
+bundle install # Install gems
 
-* System dependencies
+yarn # Install JS dependencies
+```
 
-* Configuration
+To start the app, run the following in separate terminals:
 
-* Database creation
+```sh
+rails server
 
-* Database initialization
+./bin/webpacker-dev-server
+```
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Then navigate to `http://localhost:3000` to see the app in action.
