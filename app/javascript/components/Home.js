@@ -1,5 +1,8 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
+import {
+  Link
+} from "react-router-dom";
 
 import Header from "./Header";
 
@@ -20,14 +23,18 @@ const App = () => (
               buyer
             </p>
             <p>
-              <a className="btn btn-primary" href="#login" role="button">
-                Sign up as seller &raquo;
-              </a>
+              <Link to="/signup">
+                <button className="btn btn-primary">
+                  Sign up as seller &raquo;
+                </button>
+              </Link>
             </p>
             <p>
-              <a className="btn btn-primary" href="#login" role="button">
-                Sign up as buyer &raquo;
-              </a>
+              <Link to="/login">
+                <button className="btn btn-primary">
+                  Sign up as buyer &raquo;
+                </button>
+              </Link>
             </p>
           </div>
         </div>

@@ -14,13 +14,24 @@
 // const images = require.context('./images', true)
 // const imagePath = (name) => images(name, true)
 import "bootstrap/dist/css/bootstrap.min.css";
-import React from "react";
+import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./components/App";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Home from "./components/Home";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
 
 document.addEventListener("DOMContentLoaded", () => {
-  root.render(<App />);
+  root.render(
+    <StrictMode>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </Router>
+    </StrictMode>
+  );
 });

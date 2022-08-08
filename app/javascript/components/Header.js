@@ -4,15 +4,21 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
+import { LinkContainer } from "react-router-bootstrap";
+
 const Header = () => (
   <Navbar bg="light" expand="lg">
     <Container>
-      <Navbar.Brand href="/">Vending Machine</Navbar.Brand>
+      <LinkContainer to="/">
+        <Navbar.Brand>Home</Navbar.Brand>
+      </LinkContainer>
       <Navbar.Toggle />
       <Navbar.Collapse className="justify-content-end">
         <Navbar.Text>
           {/* Signed in as: <a href="#login">Mark Otto</a> */}
-          <Nav.Link href="#login">Login</Nav.Link>
+          <LinkContainer to="/login">
+            <Nav.Link>Login</Nav.Link>
+          </LinkContainer>
         </Navbar.Text>
       </Navbar.Collapse>
     </Container>
