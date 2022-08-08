@@ -15,7 +15,14 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: @user, status: :created
+      # Generate a token for the user, and include it in the response
+      command = AuthenticateUser.call(user_params[:username], user_params[:password])
+
+      if command.success?
+        render json: { auth_token: command.result, user: @user }, status: :created
+      else
+        render json: { error: command.errors }, status: :unauthorized
+      end
     else
       render json: @user.errors, status: :unprocessable_entity
     end

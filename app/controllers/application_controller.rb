@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # Authenticate each request -> Ensure the token supplied in the headers is valid
   def authenticate_request
     @current_user = AuthorizeApiRequest.call(request.headers).result
     render json: { error: 'Not Authorized' }, status: 401 unless @current_user
