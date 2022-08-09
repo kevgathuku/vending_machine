@@ -13,6 +13,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response 201
+
+    json_response = JSON.parse(response.body).with_indifferent_access
+    # Does not return the hashed password in the response
+    assert_not json_response[:user][:password_digest]
+    # Returns auth token in the response
+    assert json_response[:auth_token]
   end
 
   test 'should show user' do

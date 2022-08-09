@@ -14,7 +14,7 @@ class UsersController < ApplicationController
       command = AuthenticateUser.call(user_params[:username], user_params[:password])
 
       if command.success?
-        render json: { auth_token: command.result, user: @user }, status: :created
+        render json: { auth_token: command.result, user: @user.as_json(:except => [:password_digest]) }, status: :created
       else
         render json: { error: command.errors }, status: :unauthorized
       end
