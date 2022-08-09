@@ -21,4 +21,9 @@ class UserTest < ActiveSupport::TestCase
     user_dup = User.create(username: 'duplicate', password: '2345678')
     assert_not user_dup.save
   end
+
+  test 'new user should have deposit set to zero' do
+    user = User.create(username: 'new_user', password: '123456')
+    assert_equal user.deposit, 0
+  end
 end
