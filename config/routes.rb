@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
-  resources :products
-  root 'site#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  root 'site#index'
+
+  get 'login', to: 'site#index'
+  get 'signup', to: 'site#index'
+
   post 'authenticate', to: 'authentication#authenticate'
+
+  scope '/api' do
+    resources :users
+    resources :products
+  end
 end

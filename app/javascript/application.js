@@ -13,14 +13,32 @@
 //
 // const images = require.context('./images', true)
 // const imagePath = (name) => images(name, true)
-
-import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import HelloMessage from "./components/App";
+import { ToastContainer } from "react-toastify";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Header from "./components/Header";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
 
 document.addEventListener("DOMContentLoaded", () => {
-  root.render(<HelloMessage name="World" />);
+  root.render(
+    <StrictMode>
+      <Router>
+        <Header />
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </Router>
+    </StrictMode>
+  );
 });
