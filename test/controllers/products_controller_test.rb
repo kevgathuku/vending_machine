@@ -2,15 +2,13 @@ require 'test_helper'
 
 class ProductsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user_buyer = users(:buyer)
-    @user_seller = users(:seller)
+    @user_buyer = create(:user, :buyer)
+    @user_seller = create(:user, :seller)
 
     @seller_token = JsonWebToken.encode(user_id: @user_seller.id)
     @buyer_token = JsonWebToken.encode(user_id: @user_buyer.id)
 
-    @product = products(:one)
-    @product.seller_id = @user_seller.id
-    @product.save
+    @product = create(:product, seller_id: @user_seller.id)
   end
 
   test 'should get index' do
