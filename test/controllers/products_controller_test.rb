@@ -8,7 +8,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     @seller_token = JsonWebToken.encode(user_id: @user_seller.id)
     @buyer_token = JsonWebToken.encode(user_id: @user_buyer.id)
 
-    @product = create(:product, seller_id: @user_seller.id)
+    @product = create(:product)
   end
 
   test 'should get index' do
