@@ -4,11 +4,13 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user_buyer = create(:user, :buyer)
     @user_seller = create(:user, :seller)
+    @other_seller = create(:user, :seller)
 
     @seller_token = JsonWebToken.encode(user_id: @user_seller.id)
+    @other_seller_token = JsonWebToken.encode(user_id: @other_seller.id)
     @buyer_token = JsonWebToken.encode(user_id: @user_buyer.id)
 
-    @product = create(:product)
+    @product = create(:product, seller: @user_seller)
   end
 
   test 'should get index' do
@@ -57,17 +59,28 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'should update product' do
+  test 'the original seller should update product' do
     patch product_url(@product),
           params: {
             product: { amount_available: @product.amount_available,
                        name: @product.name,
-                       price: @product.price,
-                       seller_id: @product.seller_id },
+                       price: @product.price },
           },
           as: :json,
           headers: { 'Authorization' => @seller_token }
     assert_response 200
+  end
+
+  test 'should not allow the other sellers to update the product' do
+    patch product_url(@product),
+          params: {
+            product: { amount_available: @product.amount_available,
+                       name: @product.name,
+                       price: @product.price },
+          },
+          as: :json,
+          headers: { 'Authorization' => @other_seller_token }
+    assert_response 401
   end
 
   test 'should destroy product' do

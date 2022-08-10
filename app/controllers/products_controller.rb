@@ -28,6 +28,10 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
   def update
+    unless @product.seller == @current_user
+      render json: { error: 'Invalid user' }, status: :unauthorized and return
+    end
+
     if @product.update(product_params)
       render :show, status: :ok, location: @product
     else
