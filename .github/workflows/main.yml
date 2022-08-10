@@ -33,9 +33,17 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
       # Add or replace database setup steps here
       - name: Set up database schema
         run: bin/rails db:schema:load
+      - name: Install node modules
+        run: yarn
+      # webpack bundle - required by system tests
+      - name: Build webpack bundle
+        run: bundle exec rails webpacker:compile
       # Add or replace test runners here
       - name: Run tests
         run: bin/rake
