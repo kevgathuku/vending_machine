@@ -37,8 +37,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should not create product if the user is a buyer' do
-    # TODO: Revisit this
-    assert_difference('Product.count') do
+    assert_no_difference('Product.count') do
       post products_url,
            params: {
              product: {
@@ -52,7 +51,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
            headers: { 'Authorization' => @buyer_token }
     end
 
-    assert_response 201
+    assert_response 422
   end
 
   test 'should show product' do
