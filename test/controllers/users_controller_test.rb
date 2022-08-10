@@ -2,8 +2,8 @@ require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user_buyer = users(:buyer)
-    @user_seller = users(:seller)
+    @user_buyer = create(:user, :buyer)
+    @user_seller = create(:user, :seller)
     @buyer_token = JsonWebToken.encode(user_id: @user_buyer.id)
   end
 
