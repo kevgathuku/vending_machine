@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
   belongs_to :seller, class_name: 'User'
 
-  validates :seller_id, inclusion: { in: User.seller.pluck(:id),
-                                     message: '%{value} is not a valid seller ID' }
+  validates :seller,
+            inclusion: { in: User.seller, message: 'The provided user is not a seller' }
 end
