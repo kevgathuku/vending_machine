@@ -83,11 +83,19 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_response 401
   end
 
-  test 'should destroy product' do
+  test 'should allow the owner to destroy a product' do
     assert_difference('Product.count', -1) do
       delete product_url(@product), as: :json, headers: { 'Authorization' => @seller_token }
     end
 
     assert_response 204
+  end
+
+  test 'should not allow other sellers to destroy a product' do
+    assert_no_difference('Product.count', -1) do
+      delete product_url(@product), as: :json, headers: { 'Authorization' => @other_seller_token }
+    end
+
+    assert_response 401
   end
 end

@@ -42,6 +42,10 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   # DELETE /products/1.json
   def destroy
+    unless @product.seller == @current_user
+      render json: { error: 'Invalid user' }, status: :unauthorized and return
+    end
+
     @product.destroy
   end
 
