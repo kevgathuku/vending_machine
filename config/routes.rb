@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   scope '/api' do
     resources :users do
       post 'deposit', to: 'deposit#deposit'
+      post 'reset', to: 'deposit#reset'
     end
 
     resources :products
