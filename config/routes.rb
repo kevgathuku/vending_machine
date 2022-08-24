@@ -8,7 +8,10 @@ Rails.application.routes.draw do
   post 'authenticate', to: 'authentication#authenticate'
 
   scope '/api' do
-    resources :users
+    resources :users do
+      post 'deposit', to: 'deposit#deposit'
+    end
+
     resources :products
   end
 end
