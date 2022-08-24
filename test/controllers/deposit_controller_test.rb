@@ -60,4 +60,24 @@ class DepositControllerTest < ActionDispatch::IntegrationTest
     assert @user_buyer.deposit, initial_deposit
     assert_response 400
   end
+
+  test 'should accept reset from a buyer' do
+    post user_reset_path(@user_buyer.id),
+         params: {},
+         as: :json,
+         headers: { 'Authorization' => @buyer_token }
+
+    assert_equal @user_buyer.reload.deposit, 0
+    assert_equal @response.parsed_body['deposit'], 0
+    assert_response 200
+  end
+
+  test 'should not accept reset from a seller' do
+    post user_reset_path(@user_seller.id),
+         params: {},
+         as: :json,
+         headers: { 'Authorization' => @seller_token }
+
+    assert_response 400
+  end
 end
