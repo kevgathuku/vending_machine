@@ -22,7 +22,8 @@ class DepositControllerTest < ActionDispatch::IntegrationTest
          as: :json,
          headers: { 'Authorization' => @buyer_token }
 
-    assert @user_buyer.deposit, (initial_deposit + deposit_amount)
+    assert_equal @user_buyer.reload.deposit, (initial_deposit + deposit_amount)
+    assert_equal @response.parsed_body['deposit'], (initial_deposit + deposit_amount)
     assert_response 200
   end
 
