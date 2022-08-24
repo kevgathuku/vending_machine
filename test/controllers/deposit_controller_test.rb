@@ -6,6 +6,7 @@ class DepositControllerTest < ActionDispatch::IntegrationTest
     @user_seller = create(:user, :seller)
 
     @buyer_token = JsonWebToken.encode(user_id: @user_buyer.id)
+    @seller_token = JsonWebToken.encode(user_id: @user_seller.id)
   end
 
   test 'should accept deposit from a buyer' do
@@ -23,6 +24,23 @@ class DepositControllerTest < ActionDispatch::IntegrationTest
 
     assert @user_buyer.deposit, (initial_deposit + deposit_amount)
     assert_response 200
+  end
+
+  test 'should not accept any deposit from a seller' do
+    deposit_amount = 5
+    initial_deposit = @user_seller.deposit
+
+    post user_deposit_path(@user_seller.id),
+         params: {
+           deposit: {
+             amount: deposit_amount,
+           },
+         },
+         as: :json,
+         headers: { 'Authorization' => @seller_token }
+
+    assert_equal @user_seller.deposit, initial_deposit
+    assert_response 400
   end
 
   test 'should not accept invalid deposit amount from a buyer' do

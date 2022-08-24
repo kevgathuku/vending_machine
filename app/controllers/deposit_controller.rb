@@ -7,7 +7,7 @@ class DepositController < ApplicationController
   def deposit
     amount = deposit_params[:amount]
 
-    if valid_deposit?(amount)
+    if valid_deposit?(amount) and valid_user?
       @user.with_lock do
         # This block is called within a transaction
         @user.deposit += amount
@@ -27,6 +27,10 @@ class DepositController < ApplicationController
 
   def deposit_params
     params.require(:deposit).permit(:amount)
+  end
+
+  def valid_user?
+    @user.role == 'buyer'
   end
 
   def valid_deposit?(amount)
