@@ -8,7 +8,10 @@ import Navbar from "react-bootstrap/Navbar";
 import { LinkContainer } from "react-router-bootstrap";
 
 const Header = () => {
-  const [userName, setUserName] = useState("");
+  const [userData, setUserData] = useState({
+    username: "",
+    role: null,
+  });
 
   const location = useLocation();
 
@@ -16,7 +19,10 @@ const Header = () => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
     if (userInfo?.username) {
-      setUserName(userInfo.username);
+      setUserData({
+        username: userInfo.username,
+        role: userInfo.role,
+      });
     }
 
     if (!userInfo) {
@@ -27,7 +33,7 @@ const Header = () => {
   useEffect(() => {
     // On mount
     checkUserData();
-  });
+  }, [userData.username]);
 
   useEffect(() => {
     // On navigate
@@ -41,7 +47,9 @@ const Header = () => {
     return () => {
       window.removeEventListener("storage", checkUserData);
     };
-  }, []);
+  });
+
+  const { username, role } = userData;
 
   return (
     <Navbar bg="light" expand="lg">
@@ -52,9 +60,9 @@ const Header = () => {
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-            {userName ? (
+            {username ? (
               <span>
-                Signed in as: <a href="profile"> {userName} </a>
+                Signed in as: <a href="profile"> {`${username} (${role})`} </a>
               </span>
             ) : (
               <LinkContainer to="/login">
