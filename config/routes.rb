@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   get 'login', to: 'site#index'
   get 'signup', to: 'site#index'
+  get 'profile', to: 'site#index'
 
   post 'authenticate', to: 'authentication#authenticate'
 
