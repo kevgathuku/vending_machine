@@ -23,6 +23,7 @@ import Header from "./components/Header";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Profile from "./components/Profile";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -37,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     </StrictMode>
