@@ -26,7 +26,10 @@ const Header = () => {
     }
 
     if (!userInfo) {
-      setUserName("");
+      setUserData({
+        username: "",
+        role: null,
+      });
     }
   };
 
