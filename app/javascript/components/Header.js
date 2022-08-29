@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -7,13 +9,39 @@ import { LinkContainer } from "react-router-bootstrap";
 
 const Header = () => {
   const [userName, setUserName] = useState("");
-  useEffect(() => {
+
+  const location = useLocation();
+
+  const checkUserData = () => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
     if (userInfo?.username) {
       setUserName(userInfo.username);
     }
+
+    if (!userInfo) {
+      setUserName("");
+    }
+  };
+
+  useEffect(() => {
+    // On mount
+    checkUserData();
   });
+
+  useEffect(() => {
+    // On navigate
+    checkUserData();
+  }, [location]);
+
+  useEffect(() => {
+    // On localstorage data change
+    window.addEventListener("storage", checkUserData);
+
+    return () => {
+      window.removeEventListener("storage", checkUserData);
+    };
+  }, []);
 
   return (
     <Navbar bg="light" expand="lg">
