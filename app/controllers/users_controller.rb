@@ -1,3 +1,5 @@
+require 'dry/matcher/result_matcher'
+
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show update destroy]
   before_action :authenticate_request, only: %i[show update destroy]
@@ -11,12 +13,17 @@ class UsersController < ApplicationController
 
     if @user.save
       # Generate a token for the user, and include it in the response
-      command = AuthenticateUser.call(user_params[:username], user_params[:password])
+      command = AuthenticateUserCredentials.new
+      maybe_user_token = command.call(username: user_params[:username], password: user_params[:password])
 
-      if command.success?
-        render json: { auth_token: command.result, user: @user.as_json(:except => [:password_digest]) }, status: :created
-      else
-        render json: { error: command.errors }, status: :unauthorized
+      Dry::Matcher::ResultMatcher.(maybe_user_token) do |m|
+        m.success do |token|
+          render json: { auth_token: token, user: @user.as_json(:except => [:password_digest]) }, status: :created
+        end
+
+        m.failure do |err|
+          render json: { error: err }, status: :unauthorized
+        end
       end
     else
       render json: @user.errors, status: :unprocessable_entity
