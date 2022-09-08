@@ -27,6 +27,9 @@ gem 'jwt'
 
 gem 'simple_command'
 
+gem 'dry-monads'
+gem 'dry-matcher'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
