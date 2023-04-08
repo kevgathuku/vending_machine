@@ -24,7 +24,7 @@ class AuthenticateUserCredentials
     if user
       Success(user)
     else
-      Failure('User not found')
+      Failure(:authentication_failure, 'User not found')
     end
   end
 
@@ -33,7 +33,7 @@ class AuthenticateUserCredentials
     if result
       Success(result)
     else
-      Failure('Invalid credentials')
+      Failure(:authentication_failure, 'Invalid credentials')
     end
   end
 end
