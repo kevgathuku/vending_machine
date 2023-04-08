@@ -45,5 +45,7 @@ jobs:
       - name: Build webpack bundle
         run: bundle exec rails webpacker:compile
       # Add or replace test runners here
-      - name: Run tests
+      - name: Run Minitest tests
         run: bin/rake
+      - name: Run Rspec tests
+        run: bin/rspec
